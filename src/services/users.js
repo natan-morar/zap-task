@@ -79,3 +79,10 @@ export async function fetchUserById(id) {
 
     throw new UserNotFoundError(`Couldn't find user with id '${id}'`);
 }
+
+export async function saveUser(user) {
+    return {
+        ...user,
+        id: Date.now(),
+    }
+}

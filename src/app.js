@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
     res.send("Hello from Zaptic! 👋💜");
 });
 
-app.use('/api/v1/users', usersApiRouter);
+app.use('/api/v1/users', express.json(), usersApiRouter);
 
 app.get('*', (req, res) => {
     res.status(404).sendFile(path.join(path.resolve(), 'src/404.html'));
