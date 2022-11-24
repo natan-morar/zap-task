@@ -16,7 +16,7 @@ function getUserObject(row) {
 }
 
 function getUsersStream() {
-    return fs.createReadStream(path.join(path.resolve(), 'src/data/users.csv'))
+    return fs.createReadStream(path.join(path.resolve(), "src/data/users.csv"))
         .pipe(parse({
             columns: false,
             skip_empty_lines: true
@@ -29,7 +29,7 @@ export class InvalidArgumentError extends Error {}
 
 /**
  * @typedef {Object} User
- * @property {Number} id
+ * @property {Number?} id
  * @property {String} first_name
  * @property {String} last_name
  * @property {String} email
@@ -41,7 +41,7 @@ export class InvalidArgumentError extends Error {}
  *
  * @returns {Promise<User[]>}
  */
-export async function fetchUsers() {
+async function fetchUsers() {
     const usersStream = getUsersStream();
     const users = [];
 
@@ -62,7 +62,7 @@ export async function fetchUsers() {
  * @throws InvalidArgumentError
  * @throws UserNotFoundError
  */
-export async function fetchUserById(id) {
+async function fetchUserById(id) {
     if (!id) {
         throw new InvalidArgumentError("Missing `id` param value");
     }
@@ -80,9 +80,27 @@ export async function fetchUserById(id) {
     throw new UserNotFoundError(`Couldn't find user with id '${id}'`);
 }
 
-export async function saveUser(user) {
-    return {
+/**
+ * Persists a user model to the database.
+ *
+ * @param {User} user
+ * @returns {Promise<User>}
+ */
+async function saveUser(user) {
+    const hydratedUser = {
         ...user,
-        id: Date.now(),
-    }
+        id: user.id || Date.now(),
+    };
+
+    // Save user to the CSV file...
+
+    return hydratedUser;
 }
+
+const UserService = {
+    fetchUsers,
+    fetchUserById,
+    saveUser,
+}
+
+export default UserService;
