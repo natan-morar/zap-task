@@ -15,4 +15,8 @@ app.listen(port, () => {
     console.log(`Listening: http://localhost:${port}`);
 });
 
+app.use((req, res, next) => {
+    res.status(404).send("Seems like you're lost😱. Do you need some help?🕵️")
+});
+
 export default app;
