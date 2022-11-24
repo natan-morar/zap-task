@@ -5,7 +5,14 @@ import { parse } from "csv-parse";
 function getUserObject(row) {
     const [id, first_name, last_name, email, job_title, star] = row;
 
-    return { id, first_name, last_name, email, job_title, star };
+    return {
+        id: parseInt(id, 10),
+        first_name,
+        last_name,
+        email,
+        job_title,
+        star: star === "true",
+    };
 }
 
 function getUsersStream() {
