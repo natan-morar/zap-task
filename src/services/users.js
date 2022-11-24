@@ -66,7 +66,7 @@ export async function fetchUserById(id) {
         const user = getUserObject(row);
 
         if (user.id === id) {
-            return row;
+            return user;
         }
     }
 
