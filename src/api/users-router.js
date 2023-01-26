@@ -15,7 +15,25 @@ router.get("/:userId", (req, res) => {
   res.json(user)
 })
 
-router.post("/", (req, res) => {
+/**
+ * Basic Auth Middleware
+ * 
+ * based on https://stackoverflow.com/a/33905671/8040299
+ */
+const basicAuthMiddleware = (req, res, next) => {
+  const auth = {login: 'admin', password: '123'} // magnificent security
+
+  const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
+  const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':')
+
+  if (login && password && login === auth.login && password === auth.password) {
+    return next()
+  }
+
+  res.status(401).end()
+}
+
+router.post("/", basicAuthMiddleware, (req, res) => {
   const userData = req.body
 
   const requiredKeys = [
