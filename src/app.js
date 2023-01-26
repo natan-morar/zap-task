@@ -9,6 +9,18 @@ const app = express();
 const CURRENT_DIR = import.meta.url.substring(0, import.meta.url.lastIndexOf("/"))
 const STATIC_DIR = path.join(fileURLToPath(CURRENT_DIR), "public/res")
 
+export const errorHandlingMiddleware = (req, res, next) => {
+    const routes = new Set(app._router.stack.filter(r => r.route).map(r => r.route.path))
+  
+    if (!routes.has(req.url)) {
+        res.send("Seems like you're lost😱. Do you need some help?🕵️")
+    }
+  
+    next()
+  }
+
+app.use(errorHandlingMiddleware)
+
 app.get("/", (req, res) => {
     res.send("Hello from Zaptic! 👋💜");
 });
@@ -22,6 +34,8 @@ app.get("/zaptic", (req, res) => {
         res.status(200)
     });
 });
+
+
 
 app.listen(port, () => {
     console.log(`Listening: http://localhost:${port}`);
