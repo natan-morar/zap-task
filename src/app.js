@@ -2,12 +2,19 @@ import fs from 'fs'
 import path from 'path'
 import express from "express";
 import { fileURLToPath } from 'url';
+import bodyParser from "body-parser";
+
+import usersRouter from './api/users-router.js'
 
 const port = 3333;
 const app = express();
+app.use(bodyParser.json());
 
 const CURRENT_DIR = import.meta.url.substring(0, import.meta.url.lastIndexOf("/"))
 const STATIC_DIR = path.join(fileURLToPath(CURRENT_DIR), "public/res")
+export const DATA_DIR = path.join(fileURLToPath(CURRENT_DIR), "data")
+
+app.use("/api/v1/users", usersRouter)
 
 export const errorHandlingMiddleware = (req, res, next) => {
     const routes = new Set(app._router.stack.filter(r => r.route).map(r => r.route.path))

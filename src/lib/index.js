@@ -18,7 +18,5 @@ export function parseCSVtoJSON(fileBuffer, delimiter = ",") {
     data.push(rowData)
   })
 
-  console.log('data', data)
-
   return data
 }
