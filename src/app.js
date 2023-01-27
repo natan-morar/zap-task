@@ -1,12 +1,8 @@
 import express from "express";
 import path from "path";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
 import { notFoundErrorHandler } from "./middlewares/notFound.middleware.js";
 import { usersRouter } from "./api/users.routes.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import { _dirname } from "./utils/defaultConsts.js";
 
 const port = 3333;
 const app = express();
@@ -18,7 +14,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/zaptic", (req, res) => {
-  res.sendFile(path.join(__dirname, "/public/res/zaptic_logo.jpeg"));
+  res.sendFile(path.join(_dirname, "/public/res/zaptic_logo.jpeg"));
 });
 
 app.use("/users", usersRouter);

@@ -1,12 +1,10 @@
 import csvtojsonV2 from "csvtojson";
 import { csvAppend } from "csv-append";
 
-import { fileURLToPath } from "url";
-import { dirname, join } from "path";
+import { join } from "path";
+import { _dirname } from "../utils/defaultConsts.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const USERS_PATH = join(__dirname, "../data/users.csv");
+const USERS_PATH = join(_dirname, "../data/users.csv");
 
 export const UserRepo = {
   findUserById: async (id) => {
